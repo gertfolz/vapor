@@ -1,4 +1,4 @@
 # vapor
 Para usar a interface gráfica, execute o comando
 
-´<pip install pyqt5>-´
+´<pip install pyqt5>´
