@@ -13,3 +13,7 @@ def getUser(username):
 def insertUser(user):
     cur.execute("INSERT INTO user VALUES (?, ?)", (user.name, user.password))
     con.commit()
+
+def close():
+    con.close()
+    print("Database closed")

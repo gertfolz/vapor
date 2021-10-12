@@ -1,4 +1,5 @@
 from user import User
+import db
 
 OPTIONS = "12"
 
@@ -17,3 +18,6 @@ if option == "1":
     user.login()
 elif option == "2":
     user.createAccount()
+
+# cleanup
+db.close()
