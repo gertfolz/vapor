@@ -1,7 +1,7 @@
 import database as db
 
 
-def create_account(username, password, email):
+def create_account(user: object):
     ''' Criação da conta de usuário.
 
     Parâmetros:
@@ -12,22 +12,24 @@ def create_account(username, password, email):
     Retornos:
     - 1: nome de usuário já cadastrado
     - 2: email de usuário já cadastrado
-    - 0 / None: criação realizada com sucesso '''
-    if db.get_user_by_name(username): return 1
-    if db.get_user_by_email(email): return 2 
-    db.insert_user(username, password, email)
+    - 0: criação realizada com sucesso '''
+    if db.get_user_by_name(user.username): return 1
+    if db.get_user_by_email(user.email): return 2 
+    db.insert_user(user)
     return 0
 
-# TODO: refatorar.
-# log user in
-# def login(self):
-#     user_data = db.get_user_by_name(self.name)
-#     if not user_data:
-#         print('Usuário não encontrado')
-#         return 1
-#     password = user_data[1]
-#     if self.password != password:
-#         print('Senha inválida')
-#         return 1
-#     print('Login realizado')
-#     return 0
+def login(user: object):
+    ''' Realização da entrada do usuário no sistema.
+    
+    Parâmetros:
+    - username: nome da conta do usuário
+    - password: senha do usuário
+       
+    Retornos:
+    - 1: nome de usuário não encontrado
+    - 2: senha incorreta
+    - 0: entrada realizada com sucesso '''
+    data = db.get_user_by_name(user.username)
+    if not data: return 1  # uma coleção vazia é considerada falsa
+    if user.password != data[1]: return 2
+    return 0
