@@ -2,6 +2,7 @@
 import authentication as auth
 import database as db
 from user import User
+import storeManager as sm
 
 
 OPTIONS = '012'
@@ -28,7 +29,7 @@ def show_dummy_library():
 
 
 if __name__ == '__main__':
-
+    sm.initializeGames()
     # leitura da opção
     option = input(MENU)
     while option not in OPTIONS:

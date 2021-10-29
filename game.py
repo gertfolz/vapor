@@ -10,3 +10,4 @@ class Game:
     desc: str = None # descrição do jogo
     releaseDate: str = None # data de lançamento do jogo
     developer: str = None # desenvolvedor do jogo
+

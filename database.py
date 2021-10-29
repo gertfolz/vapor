@@ -6,7 +6,7 @@ cur = con.cursor()
 cur.execute('CREATE TABLE IF NOT EXISTS user (username TEXT, password TEXT, email TEXT)')
 cur.execute('CREATE TABLE IF NOT EXISTS friendship (username1 TEXT, username2 TEXT)')
 cur.execute('CREATE TABLE IF NOT EXISTS userGames (username TEXT, game TEXT)')
-cur.execute('CREATE TABLE IF NOT EXISTS game (name TEXT, priceBuy TEXT, priceRent TEXT, idNumber TEXT, desc TEXT, releaseDate TEXT, developer TEXT)')
+cur.execute('CREATE TABLE IF NOT EXISTS game (name TEXT, priceBuy TEXT, priceRent TEXT, desc TEXT, releaseDate TEXT, developer TEXT)')
 con.commit()
 
 def get_user_by_name(username):
@@ -37,10 +37,10 @@ def insert_gameToUserLibrary(username, game):
     cur.execute(cmd, (username, game))
     con.commit()
 
-def insert_game(name, priceBuy, priceRent, idNumber, desc, releaseDate, developer):
+def insert_game(game):
     '''Insere um novo jogo à lista de jogos na loja. '''
-    cmd = 'INSERT INTO game VALUES (?, ?, ?, ?, ?, ?, ?)'
-    cur.execute(cmd, (name, priceBuy, priceRent, idNumber, desc, releaseDate, developer))
+    cmd = 'INSERT INTO game VALUES (?, ?, ?, ?, ?, ?)'
+    cur.execute(cmd, (game.name, game.priceBuy, game.priceRent, game.desc, game.releaseDate, game.developer))
     con.commit()
 
 
