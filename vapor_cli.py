@@ -8,7 +8,6 @@ import database as db
 import storemanager as sm
 from user import User
 
-
 OPTIONS = '012'
 MENU = '1 - Criar conta\n2 - Login\n0 - Sair\n'
 CREATION_CODES = { 1: 'Nome de usuário já existente',

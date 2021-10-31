@@ -3,7 +3,6 @@ Módulo que contém a classe de dados dos jogos.
 '''
 from dataclasses import dataclass
 
-
 @dataclass
 class Game:
     ''' Classe que representa um jogo.
@@ -14,4 +13,3 @@ class Game:
     desc: str = None # descrição do jogo
     release_date: str = None # data de lançamento do jogo
     developer: str = None # desenvolvedor do jogo
-
