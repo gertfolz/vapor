@@ -1,3 +1,4 @@
+''' Módulo que contém funções relacionadas à autenticação de usuários. '''
 import database as db
 
 

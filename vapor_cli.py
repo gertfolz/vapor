@@ -1,8 +1,9 @@
-''' Módulo utilizado para testes diretamente no terminal. '''
+''' Módulo utilizado para a realização de testes diretamente no terminal. '''
+import sys
 import authentication as auth
 import database as db
+import storemanager as sm
 from user import User
-import storeManager as sm
 
 
 OPTIONS = '012'
@@ -29,14 +30,16 @@ def show_dummy_library():
 
 
 if __name__ == '__main__':
-    sm.initializeGames()
+    # inicialização da loja
+    sm.initialize_games()
+
     # leitura da opção
     option = input(MENU)
     while option not in OPTIONS:
         option = input(MENU)
 
     # TODO: utilizar um dict de funções para executar os opções?
-    # execução da opção
+    # execução da opção de criação de conta de usuário
     if option == '1':
         get_account_creation_data()
         cod = auth.create_account(user)
@@ -45,6 +48,7 @@ if __name__ == '__main__':
             get_account_creation_data()
             cod = auth.create_account(user)
 
+    # execução da opção de login de usuário
     elif option == '2':
         get_login_data()
         cod = auth.login(user)
@@ -52,9 +56,9 @@ if __name__ == '__main__':
             print(LOGIN_CODES[cod])
             get_login_data()
             cod = auth.login(user)
-        show_dummy_library()
+        show_dummy_library() # TODO: remover após implementar a compra de jogos
 
     # TODO: remover o fechamento caso ele seja retirado do módulo do banco.
     elif option == '0':
         db.close()
-        exit(0)
+        sys.exit(0)
