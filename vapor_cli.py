@@ -1,5 +1,6 @@
 ''' Módulo utilizado para a realização de testes diretamente no terminal. '''
 import sys
+import misc
 import authentication as auth
 import database as db
 import storemanager as sm
@@ -15,17 +16,28 @@ LOGIN_CODES = { 1: 'Usuário não encontrado',
 
 user = User()
 
+def get_initial_menu_option():
+    ''' Menu inicial do sistema. '''
+    misc.separator('VAPOR')
+    return input(MENU)
+
 def get_login_data():
-    user.username = input('\nUsuário: ')
+    ''' Formulário de login de usuário. '''
+    misc.separator('VAPOR: LOGIN')
+    user.username = input('Usuário: ')
     user.password = input('Senha: ')
 
 def get_account_creation_data():
-    user.username = input('\nUsuário: ')
+    ''' Formulário de criação de conta de usuário. '''
+    misc.separator('VAPOR: CRIAÇÃO DE CONTA')
+    user.username = input('Usuário: ')
     user.password = input('Senha: ')
     user.email = input('E-mail: ')
 
 def show_dummy_library():
-    print(f'\nUsuário: {user.username}')
+    ''' Mostra uma biblioteca dummy para testes. '''
+    misc.separator('VAPOR: BIBLIOTECA DE JOGOS')
+    print(f'Usuário: {user.username}')
     print('Jogos: A, B, C, D, E, F, G')
 
 
@@ -34,9 +46,9 @@ if __name__ == '__main__':
     sm.initialize_games()
 
     # leitura da opção
-    option = input(MENU)
+    option = get_initial_menu_option()
     while option not in OPTIONS:
-        option = input(MENU)
+        option = get_initial_menu_option()
 
     # TODO: utilizar um dict de funções para executar os opções?
     # execução da opção de criação de conta de usuário
