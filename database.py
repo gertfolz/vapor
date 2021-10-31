@@ -1,21 +1,14 @@
-''' Gerenciador do banco da dados. '''
+'''
+Gerenciador do banco da dados.
+'''
 import sqlite3
 
 
 # TODO: utilizar restrições de integridade?
 # TODO: criar um script separado só pra isso, de modo que essa inicialização não
 #     seja realizada sempre que o software é executado?
-# Inicialização do banco de dados.
 con = sqlite3.connect('database.db')
 cur = con.cursor()
-cur.execute('CREATE TABLE IF NOT EXISTS user (username TEXT, password TEXT, \
-    email TEXT)')
-cur.execute('CREATE TABLE IF NOT EXISTS friendship (username1 TEXT, \
-    username2 TEXT)')
-cur.execute('CREATE TABLE IF NOT EXISTS user_game (username TEXT, game TEXT)')
-cur.execute('CREATE TABLE IF NOT EXISTS game (name TEXT, price_buy TEXT, \
-    price_rent TEXT, desc TEXT, release_date TEXT, developer TEXT)')
-con.commit()
 
 
 def get_user_by_name(username: str):
@@ -53,8 +46,38 @@ def insert_game(game: object):
         game.release_date, game.developer))
     con.commit()
 
-
 # TODO: abrir e fechar antes e depois de cada operação?
 def close():
     ''' Fecha a conexão do banco de dados. '''
     con.close()
+
+''' ------------------------------------------------------------------------ '''
+
+''' Inicialização do banco de dados, separado do resto do módulo para não ser
+executado a cada execução do sistema. '''
+if __name__ == '__main__':
+    import sys
+
+
+    con = sqlite3.connect('database.db')
+    cur = con.cursor()
+
+    # Dados de cada usuário.
+    cur.execute('''CREATE TABLE IF NOT EXISTS user (username TEXT,
+        password TEXT, email TEXT)''')
+
+    # Dados de cada jogo.
+    cur.execute('''CREATE TABLE IF NOT EXISTS game (name TEXT, price_buy TEXT,
+        price_rent TEXT, desc TEXT, release_date TEXT, developer TEXT)''')
+
+    # Amizades entre os usuários.
+    cur.execute('''CREATE TABLE IF NOT EXISTS friendship (username1 TEXT,
+        username2 TEXT)''')
+
+    # Jogos adquiridos ou alugados por cada usuário.
+    cur.execute('''CREATE TABLE IF NOT EXISTS user_game (username TEXT,
+        game TEXT)''')
+
+    con.commit()
+    con.close()
+    sys.exit(0)

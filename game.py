@@ -1,3 +1,6 @@
+'''
+Módulo que contém a classe de dados dos jogos.
+'''
 from dataclasses import dataclass
 
 

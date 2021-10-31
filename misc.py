@@ -1,4 +1,6 @@
-''' Módulo que contém funções utilitárias. '''
+'''
+Módulo que contém funções utilitárias.
+'''
 
 
 def separator(title: str):

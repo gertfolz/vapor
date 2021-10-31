@@ -1,4 +1,6 @@
-''' Módulo utilizado para a realização de testes diretamente no terminal. '''
+'''
+Módulo utilizado para a realização de testes diretamente no terminal.
+'''
 import sys
 import misc
 import authentication as auth
@@ -40,7 +42,9 @@ def show_dummy_library():
     print(f'Usuário: {user.username}')
     print('Jogos: A, B, C, D, E, F, G')
 
+''' ------------------------------------------------------------------------ '''
 
+''' Execução do sistema através de uma interface de usuário no terminal. '''
 if __name__ == '__main__':
     # inicialização da loja
     sm.initialize_games()

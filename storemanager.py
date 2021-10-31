@@ -1,4 +1,6 @@
-''' Módulo que contém funções associadas à gerência da loja da plataforma. '''
+'''
+Módulo que contém funções associadas à gerência da loja da plataforma.
+'''
 import database as db
 from game import Game
 
@@ -20,8 +22,9 @@ def initialize_games():
             print(new_game, end='\n\n')
             db.insert_game(new_game)
 
+''' ------------------------------------------------------------------------ '''
 
-# Testes.
+''' Testes. '''
 if __name__ == '__main__':
     import misc
 
