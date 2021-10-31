@@ -51,11 +51,21 @@ def insert_friendship(username1: str, username2: str):
 
 ''' User game library ------------------------------------------------------ '''
 
-def insert_user_game(username: str, game_name: str):
+def insert_user_game(username: str, game_name: str, rented: int):
     ''' Insere um novo jogo à lista de jogos do usuário. '''
-    cmd = 'INSERT INTO user_game VALUES (?, ?)'
-    cur.execute(cmd, (username, game_name))
+    cmd = 'INSERT INTO user_game VALUES (?, ?, ?)'
+    cur.execute(cmd, (username, game_name, rented))
     con.commit()
+
+def get_user_game(username: str, game_name: str):
+    ''' Recupera um jogo da biblioteca do usuário. '''
+    cmd = 'SELECT * FROM user_game WHERE username=? AND game_name=?'
+    return cur.execute(cmd, (username, game_name)).fetchone()
+
+def get_user_games(username: str):
+    ''' Recupera todos os jogos associados ao usuário. '''
+    cmd = 'SELECT game_name, rented FROM user_game WHERE username=?'
+    return cur.execute(cmd, (username,)).fetchall()
 
 ''' ------------------------------------------------------------------------ '''
 
@@ -80,21 +90,36 @@ if __name__ == '__main__':
     cur.execute('''DROP TABLE IF EXISTS user_game''')
 
     # Dados de cada usuário.
-    cur.execute('''CREATE TABLE IF NOT EXISTS user (username TEXT PRIMARY KEY,
-        password TEXT, email TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS user (
+        username TEXT PRIMARY KEY,
+        password TEXT NOT NULL,
+        email TEXT NOT NULL)''')
 
     # Dados de cada jogo.
-    cur.execute('''CREATE TABLE IF NOT EXISTS game (name TEXT PRIMARY KEY, 
-        price_buy TEXT, price_rent TEXT, desc TEXT, release_date TEXT,
-        developer TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS game (
+        name TEXT PRIMARY KEY,
+        price_buy TEXT NOT NULL,
+        price_rent TEXT,
+        desc TEXT NOT NULL,
+        release_date TEXT NOT NULL,
+        developer TEXT NOT NULL)''')
 
     # Amizades entre os usuários.
-    cur.execute('''CREATE TABLE IF NOT EXISTS friendship (username1 TEXT,
-        username2 TEXT, PRIMARY KEY(username1, username2))''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS friendship (
+        username1 TEXT NOT NULL,
+        username2 TEXT NOT NULL,
+        PRIMARY KEY(username1, username2),
+        FOREIGN KEY(username1) REFERENCES user(username),
+        FOREIGN KEY(username2) REFERENCES user(username))''')
 
     # Jogos adquiridos ou alugados por cada usuário.
-    cur.execute('''CREATE TABLE IF NOT EXISTS user_game (username TEXT,
-        game TEXT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS user_game (
+        username TEXT NOT NULL,
+        game_name TEXT NOT NULL,
+        rented INTEGER NOT NULL,
+        PRIMARY KEY(username, game_name),
+        FOREIGN KEY(username) REFERENCES user(username),
+        FOREIGN KEY(game_name) REFERENCES game(name))''')
 
     con.commit()
     con.close()

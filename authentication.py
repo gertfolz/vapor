@@ -35,3 +35,13 @@ def login(user: object):
     if not data: return 1  # uma coleção vazia é considerada falsa
     if user.password != data[1]: return 2
     return 0
+
+# TODO: remover após implementar a compra de jogos.
+def initialize_users():
+    ''' Inserção de um usuário no banco de dados para testes. '''
+    from user import User
+    user = User()
+    user.username = 'a'
+    user.password = 'a'
+    user.email = 'a'
+    create_account(user)
