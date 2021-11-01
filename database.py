@@ -41,6 +41,11 @@ def get_game_by_name(game_name: str):
     cmd = 'SELECT * FROM game where name=?'
     return cur.execute(cmd, (game_name,)).fetchone()
 
+def get_games():
+    ''' Recupera todos os jogos cadastrados no sistema. '''
+    cmd = 'SELECT * FROM game'
+    return cur.execute(cmd, ()).fetchall()
+
 ''' Friendship ------------------------------------------------------------- '''
 
 def insert_friendship(username1: str, username2: str):
