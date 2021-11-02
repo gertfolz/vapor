@@ -1,13 +1,13 @@
 Celeste
 36,99
-5
+5,00
 Ajude Madeline a enfrentar seus demônios internos em sua jornada até o topo da Montanha Celeste, nesse jogo de plataforma super afiado dos criadores de TowerFall. Desbrave centenas de desafios meticulosos, descubra segredos complicados e desvende o mistério da montanha.
 25/jan/2018
 Extremely OK Games, Ltd.
 
 Counter-Strike: Global Offensive
-0
-0
+0,00
+0,00
 O Counter-Strike: Global Offensive (CS:GO) melhora a jogabilidade de ação baseada em equipes na qual foi pioneiro quando lançado há 19 anos. O CS:GO contém novos mapas, personagens e armas, além de contar com versões atualizadas de conteúdos do CS clássico (como de_dust2).
 21/ago/2012
 Valve, Hidden Path Entertainment

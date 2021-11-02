@@ -8,6 +8,23 @@ def get_games():
     ''' Recupera uma lista com os nomes de todos os jogos presentes na loja. '''
     return list(zip(*db.get_games()))[0]
 
+def search_game(game_name: str):
+    ''' Pesquisa um jogo pelo seu nome.
+    
+    Atributo: nome do jogo.
+    
+    Retorno: um objeto contendo os atributos do jogo, ou None.'''
+    data = db.get_game_by_name(game_name)
+    if data:
+        game = Game()
+        game.name = data[0]
+        game.price_buy = data[1]
+        game.price_rent = data[2]
+        game.desc = data[3]
+        game.release_date = data[4]
+        game.developer = data[5]
+        return game
+
 def initialize_games():
     ''' Inicializa a loja com jogos lidos de um arquivo texto.
     É uma função utilizada apenas para a realização de testes, atualmente. '''

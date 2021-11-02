@@ -7,19 +7,20 @@ import authentication as auth
 import database as db
 import storemanager as sm
 import librarymanager as lm
+from game import Game
 from user import User
 
 INITIAL_MENU_OPTIONS = '012'
 LIBRARY_MENU_OPTIONS = '01'
-STORE_MENU_OPTIONS =   '012'
+STORE_MENU_OPTIONS   = '012'
 
 INITIAL_MENU = '[1] Criar conta\n[2] Login\n[0] Sair\n'
 LIBRARY_MENU = '\n[1] Loja de Jogos\n[0] Sair\n'
-STORE_MENU =   '\n[1] Pesquisar Jogo\n[2] Biblioteca de Jogos\n[0] Sair\n'
+STORE_MENU   = '\n[1] Pesquisar Jogo\n[2] Biblioteca de Jogos\n[0] Sair\n'
 
-CREATION_CODES =  { 1: 'Nome de usuário já existente',
+CREATION_CODES  = { 1: 'Nome de usuário já existente',
                     2: 'E-mail já cadastrado' }
-LOGIN_CODES =     { 1: 'Usuário não encontrado',
+LOGIN_CODES     = { 1: 'Usuário não encontrado',
                     2: 'Senha incorreta' }
 GAME_MODE_CODES = { 0: 'Comprado',
                     1: 'Alugado' }
@@ -61,6 +62,19 @@ def show_game_store():
 def get_store_menu_options():
     ''' Menu mostrado na loja de jogos. '''
     return input(STORE_MENU)
+
+def get_game_search():
+    misc.separator(f'VAPOR: LOJA DE JOGOS > PESQUISA -- {user.username}')
+    return sm.search_game(input('Nome do jogo: '))
+
+def show_game(game: Game):
+    ''' Mostra os dados de um jogo na loja. '''
+    misc.separator(f'VAPOR: LOJA DE JOGOS > {game.name} -- {user.username}')
+    print(game.desc, end='\n\n')
+    print(f'Preço de compra: R$ {game.price_buy}')
+    print(f'Preço de aluguel: R$ {game.price_rent}')
+    print(f'Data de lançamento: {game.release_date}')
+    print(f'Desenvolvedor: {game.developer}')
 
 ''' ------------------------------------------------------------------------ '''
 
@@ -122,8 +136,12 @@ if __name__ == '__main__':
         show_game_store()
         option = get_store_menu_options()
     
-    if option == '1': # TODO: implementar a pesquisa de jogos
-        pass
+    if option == '1':
+        game = get_game_search()
+        while game == None:
+            print('Jogo não encontrado!')
+            game = get_game_search()
+        show_game(game)
 
     elif option == '2':
         show_user_library()
