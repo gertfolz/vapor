@@ -38,8 +38,9 @@ def login(user: object):
 
 # TODO: remover após implementar a compra de jogos.
 def initialize_users():
-    ''' Inserção de um usuário no banco de dados para testes. '''
+    ''' Inserção de dois usuários no banco de dados para testes. '''
     from user import User
+
     user = User()
     user.username = 'a'
     user.password = 'a'

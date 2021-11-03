@@ -48,10 +48,37 @@ def get_games():
 
 ''' Friendship ------------------------------------------------------------- '''
 
-def insert_friendship(username1: str, username2: str):
-    ''' Insere uma nova entrada de amizade entre usuários. '''
-    cmd = 'INSERT INTO friendship VALUES (?, ?)'
-    cur.execute(cmd, (username1, username2))
+def get_friendship(sender: str, receiver: str):
+    ''' Recupera uma entrada de amizade entre dois usuários. '''
+    cmd = 'SELECT * FROM friendship WHERE sender=? AND receiver=?'
+    return cur.execute(cmd, (sender, receiver)).fetchone()
+
+def get_friendship_by_sender(sender: str):
+    ''' Recupera uma entrada de amizade entre dois usuários pelo remetente. '''
+    cmd = 'SELECT * FROM friendship WHERE sender=?'
+    return cur.execute(cmd, (sender,)).fetchone()
+
+def get_friendship_by_receiver(receiver: str):
+    ''' Recupera uma entrada de amizade entre dois usuários pelo recebedor. '''
+    cmd = 'SELECT * FROM friendship WHERE receiver=?'
+    return cur.execute(cmd, (receiver,)).fetchone()
+
+def insert_friendship_request(sender: str, receiver: str):
+    ''' Insere uma nova entrada de amizade pendente entre usuários. '''
+    cmd = 'INSERT INTO friendship VALUES (?, ?, ?)'
+    cur.execute(cmd, (sender, receiver, 1))
+    con.commit()
+
+def accept_friendship_request(sender: str, receiver: str):
+    ''' Atualiza uma entrada de amizade existente para não pendente. '''
+    cmd = 'UPDATE friendship SET pending = 0 WHERE sender=? AND receiver=?'
+    cur.execute(cmd, (sender, receiver))
+    con.commit()
+
+def reject_friendship_request(sender: str, receiver: str):
+    ''' Rejeita (deleta) um pedido de amizade pendente. '''
+    cmd = 'DELETE FROM friendship WHERE sender=? AND receiver=?'
+    cur.execute(cmd, (sender, receiver))
     con.commit()
 
 ''' User game library ------------------------------------------------------ '''
@@ -111,11 +138,12 @@ if __name__ == '__main__':
 
     # Amizades entre os usuários.
     cur.execute('''CREATE TABLE IF NOT EXISTS friendship (
-        username1 TEXT NOT NULL,
-        username2 TEXT NOT NULL,
-        PRIMARY KEY(username1, username2),
-        FOREIGN KEY(username1) REFERENCES user(username),
-        FOREIGN KEY(username2) REFERENCES user(username))''')
+        sender TEXT NOT NULL,
+        receiver TEXT NOT NULL,
+        pending INTEGER NOT NULL,
+        PRIMARY KEY(sender, receiver),
+        FOREIGN KEY(sender) REFERENCES user(username),
+        FOREIGN KEY(receiver) REFERENCES user(username))''')
 
     # Jogos adquiridos ou alugados por cada usuário.
     cur.execute('''CREATE TABLE IF NOT EXISTS user_game (

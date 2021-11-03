@@ -11,9 +11,11 @@ def get_games():
 def search_game(game_name: str):
     ''' Pesquisa um jogo pelo seu nome.
     
-    Atributo: nome do jogo.
+    Parâmetros:
+    - game_name: o nome do jogo
     
-    Retorno: um objeto contendo os atributos do jogo, ou None.'''
+    Retornos:
+    - um objeto contendo os atributos do jogo, ou None'''
     data = db.get_game_by_name(game_name)
     if data:
         game = Game()

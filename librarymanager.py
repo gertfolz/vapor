@@ -7,9 +7,11 @@ import database as db
 def get_user_library(username: str):
     ''' Recupera a biblioteca de jogos do usuário.
     
-    Parâmetro: nome do usuário.
+    Parâmetros:
+    - username: nome do usuário
     
-    Retorno: uma lista de tuplas. O primeiro elemento da tupla contém o nome do
+    Retornos:
+    - uma lista de tuplas. O primeiro elemento da tupla contém o nome do
     jogo (str), e o segundo contém a forma com a qual ele foi adquirido (int; 0
     indica que foi comprado, 1 indica que foi alugado). '''
     return db.get_user_games(username)
