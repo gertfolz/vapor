@@ -63,6 +63,18 @@ def get_friendship_by_receiver(receiver: str):
     cmd = 'SELECT * FROM friendship WHERE receiver=?'
     return cur.execute(cmd, (receiver,)).fetchone()
 
+def get_friendships(username: str):
+    ''' Recupera as amizades nas quais o usuário participa. '''
+    cmd1 = 'SELECT sender, receiver FROM friendship WHERE sender=?'
+    cmd2 = 'SELECT sender, receiver FROM friendship WHERE receiver=?'
+    return cur.execute(f'{cmd1} UNION {cmd2}', (username, username)).fetchall()
+
+def get_pending_friendship_requests(receiver: str):
+    ''' Recupera os pedidos pendentes enviados para o recebedor. '''
+    cmd = '''SELECT sender, receiver FROM friendship WHERE receiver=? 
+        AND pending=?'''
+    return cur.execute(cmd, (receiver, 1)).fetchall()
+
 def insert_friendship_request(sender: str, receiver: str):
     ''' Insere uma nova entrada de amizade pendente entre usuários. '''
     cmd = 'INSERT INTO friendship VALUES (?, ?, ?)'

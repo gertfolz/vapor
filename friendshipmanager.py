@@ -59,6 +59,28 @@ def reject_friend_request(sender: str, receiver: str):
     db.reject_friendship_request(sender, receiver)
     return 0
 
+def get_pending_friendship_requests(receiver: str):
+    ''' Recupera os pedidos de amizade pendentes enviados para o recebedor.
+    
+    Parâmetros:
+    - receiver: nome de usuário do recebedor
+    
+    Retornos:
+    - uma lista de tuplas (sender, receiver) contendo os pedidos pendentes'''
+    return db.get_pending_friendship_requests(receiver)
+
+def get_friends(username: str):
+    ''' Recupera os amigos de um usuário.
+    
+    Parâmetros:
+    - username: nome do usuário
+    
+    Retornos:
+    - uma lista contendo os nomes dos amigos'''
+    friends = set().union(*db.get_friendships(username))
+    friends.remove(username)
+    return list(friends)
+
 ''' ------------------------------------------------------------------------ '''
 
 ''' Testes. '''
@@ -67,13 +89,17 @@ if __name__ == '__main__':
 
     print(send_friend_request('a', 'a')) # mesmo nome
     print(send_friend_request('a', 'c')) # usuário recebedor inexistente
+    print(get_pending_friendship_requests('b')) # vazio
     print(send_friend_request('a', 'b')) # correto
     print(send_friend_request('a', 'b')) # pedido pendente
+    print(get_pending_friendship_requests('b')) # correto
     print(reject_friend_request('a', 'b')) # correto
     print(reject_friend_request('a', 'b')) # pedido não encontrado
     print(accept_friend_request('a', 'b')) # pedido não encontrado
     print(send_friend_request('a', 'b')) # correto
     print(accept_friend_request('a', 'b')) # correto
     print(send_friend_request('a', 'b')) # já amigos
+    print(get_friends('a')) # ['b']
+    print(get_friends('b')) # ['a']
 
     sys.exit(0)
