@@ -27,6 +27,7 @@ GAME_MODE_CODES = { 0: 'Comprado',
 
 user = User()
 
+
 def get_initial_menu_option():
     ''' Menu inicial do sistema. '''
     misc.separator('VAPOR')
@@ -81,6 +82,7 @@ def show_game(game: Game):
 ''' Execução do sistema através de uma interface de usuário no terminal. '''
 if __name__ == '__main__':
     # Inicialização do banco de dados para teste.
+    sm.check_creditCard()
     auth.initialize_users()
     sm.initialize_games()
     sm.initialize_library()

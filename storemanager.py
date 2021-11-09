@@ -2,6 +2,7 @@
 Módulo que contém funções associadas à gerência da loja da plataforma.
 '''
 import database as db
+from friendshipmanager import get_friends
 from game import Game
 
 def get_games():
@@ -55,6 +56,60 @@ def initialize_library():
         db.insert_user_game('a', 'The Witcher 3: Wild Hunt', 1)
     if not db.get_user_game('a', 'The Elder Scrolls V: Skyrim'):
         db.insert_user_game('a', 'The Elder Scrolls V: Skyrim', 0)
+
+def buy_game(game_name: str, user_name:str):
+    
+    '''Jogo comprado é inserido na biblioteca do usuário'''
+    if not db.get_user_game(user_name, game_name):
+        db.insert_user_game(user_name, game_name)
+        return 0
+    else:
+        return 1
+
+def buy_gift(game_name: str, sender:str, receiver:str):
+
+    
+
+    '''Se o usuário está na lista de amigos do remetente'''
+    if(receiver in get_friends(sender)):
+        if not db.get_user_game(receiver, game_name):
+            '''Insere jogo na biblioteca do destinatário e retorna código de sucesso'''
+            db.insert_user_game(receiver, game_name)
+            return 0
+        else:
+            '''Destinatário já possui o jogo, retorna o código de erro deste caso'''
+            return 1
+    else:
+        '''Destinatário não está na lista de amigos do remetente, retorna código de erro'''
+        return 2
+
+def check_creditCard():
+    '''Dados do cartão que a gente não vai usar pra nada kk'''
+
+    creditCard = input("Número do cartão de crédito: ")
+    creditCard.strip()
+    '''Se o número do cartão conter algo além de números ou não ter 16 digitos, retorna erro e a compra será cancelada'''
+    if not ((creditCard.isnumeric()) and (len(creditCard) == 16)):
+        print('Número do cartão de crédito inválido')
+        return 1
+    prop = input("Nome do proprietário do cartão: ")
+
+    cvv = input("Código de segurança: ")
+    '''Se o código de segurança conter algo além de números ou não ter 3 digitos, retorna erro e a compra será cancelada'''
+    if not ((cvv.isnumeric()) and (len(cvv) == 3)):
+        print('Código de segurança inválido')
+        return 1
+
+    characters = "/- "
+    vdate = input("Data de validade: ")
+    vdate.replace(characters, "")
+    '''Se a data informada conter caracteres que não são digitos, tiver a data de validade expirada ou não possuir 8 digitos, retorna erro e a compra será cancelada'''
+    if not (vdate.isnumeric() == int and len(vdate) == 8 and int(vdate) > 10112021):
+        print('Data inválida')
+        return 1
+
+    return 0
+
 
 ''' ------------------------------------------------------------------------ '''
 
