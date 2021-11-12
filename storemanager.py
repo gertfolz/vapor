@@ -7,6 +7,7 @@ from game import Game
 from datetime import datetime, timedelta
 
 OPTIONS = '123'
+CHARACTERS = '/- '
 
 def get_games():
     ''' Recupera uma lista com os nomes de todos os jogos presentes na loja. '''
@@ -95,7 +96,6 @@ def buy_gift(game_name: str, sender:str):
 def rent_game(game_name: str, user_name:str):
     
     
-    print()
     option = input("Selecione por quantos dias deseja alugar:\n 1- 7 dias\n 2- 15 dias\n 3- 30 dias \n")
     while option not in OPTIONS:
         print("Opção inválida!")
@@ -123,7 +123,8 @@ def check_creditCard():
     '''Dados do cartão que a gente não vai usar pra nada kk'''
 
     creditCard = input("Número do cartão de crédito: ")
-    creditCard.strip()
+    creditCard = creditCard.replace(" ", "")
+  
     '''Se o número do cartão conter algo além de números ou não ter 16 digitos, retorna erro e a compra será cancelada'''
     if not ((creditCard.isnumeric()) and (len(creditCard) == 16)):
         return 1
@@ -135,13 +136,14 @@ def check_creditCard():
     if not ((cvv.isnumeric()) and (len(cvv) == 3)):
         return 1
 
-    characters = "/- "
+   
     vdate = input("Data de validade: ")
-    vdate.replace(characters, "")
+    vdate = vdate.replace("/", "")
+    vdate = vdate.replace(" ", "")
     '''Se a data informada conter caracteres que não são digitos, tiver a data de validade expirada ou não possuir 8 digitos, retorna erro e a compra será cancelada'''
-    if not (vdate.isnumeric() == int and len(vdate) == 8 and int(vdate) > 10112021):
+    if not ((vdate.isnumeric()) and (len(vdate) == 8)):
         return 1
-        
+
     return 0
 
 
