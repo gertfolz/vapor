@@ -2,6 +2,7 @@
 Módulo que contém funções relacionadas à autenticação de usuários.
 '''
 import database as db
+import friendshipmanager as fm
 
 def create_account(user: object):
     ''' Criação da conta de usuário.
@@ -46,3 +47,10 @@ def initialize_users():
     user.password = 'a'
     user.email = 'a'
     create_account(user)
+    user = User()
+    user.username = 'b'
+    user.password = 'b'
+    user.email = 'b'
+    create_account(user)
+    fm.send_friend_request("a", "b")
+    fm.accept_friend_request("a", "b")

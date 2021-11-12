@@ -95,10 +95,10 @@ def reject_friendship_request(sender: str, receiver: str):
 
 ''' User game library ------------------------------------------------------ '''
 
-def insert_user_game(username: str, game_name: str, rented: int):
+def insert_user_game(username: str, game_name: str, rented: int, timestamp: object = None):
     ''' Insere um novo jogo à lista de jogos do usuário. '''
-    cmd = 'INSERT INTO user_game VALUES (?, ?, ?)'
-    cur.execute(cmd, (username, game_name, rented))
+    cmd = 'INSERT INTO user_game VALUES (?, ?, ?, ?)'
+    cur.execute(cmd, (username, game_name, rented, timestamp))
     con.commit()
 
 def get_user_game(username: str, game_name: str):
@@ -162,6 +162,7 @@ if __name__ == '__main__':
         username TEXT NOT NULL,
         game_name TEXT NOT NULL,
         rented INTEGER NOT NULL,
+        timestamp INTEGER,
         PRIMARY KEY(username, game_name),
         FOREIGN KEY(username) REFERENCES user(username),
         FOREIGN KEY(game_name) REFERENCES game(name))''')
