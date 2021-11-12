@@ -17,15 +17,44 @@ STORE_MENU_OPTIONS   = '012'
 INITIAL_MENU = '[1] Criar conta\n[2] Login\n[0] Sair\n'
 LIBRARY_MENU = '\n[1] Loja de Jogos\n[0] Sair\n'
 STORE_MENU   = '\n[1] Pesquisar Jogo\n[2] Biblioteca de Jogos\n[0] Sair\n'
+BUY_MENU = '\n[1] Comprar Jogo\n[2] Presentear Jogo \n[3] Alugar Jogo\n[0] Sair\n'
 
-CREATION_CODES  = { 1: 'Nome de usuário já existente',
-                    2: 'E-mail já cadastrado' }
-LOGIN_CODES     = { 1: 'Usuário não encontrado',
-                    2: 'Senha incorreta' }
-GAME_MODE_CODES = { 0: 'Comprado',
-                    1: 'Alugado' }
+CREATION_CODES  = { 
+    1: 'Nome de usuário já existente',
+    2: 'E-mail já cadastrado' 
+    }
+
+LOGIN_CODES     = { 
+    1: 'Usuário não encontrado',
+    2: 'Senha incorreta' 
+    }
+
+GAME_MODE_CODES = { 
+    0: 'Comprado',
+    1: 'Alugado',
+    }
+
+GIFT_CODES = { 
+    0: 'Jogo enviado com sucesso',
+    1: 'Destinatário já possuí jogo selecionado',
+    2: 'Destinatário não encontrado na lista de amigos',
+    3: 'Cartão de crédito recusado'
+    }
+
+BUY_CODES = {
+    0: 'Jogo comprado com sucesso',
+    1: 'Usuário já possuí o jogo',
+    2: 'Cartão de crédito recusado'
+}
+
+RENT_CODES = {
+    0: 'Jogo alugado com sucesso',
+    1: 'Usuário já possuí o jogo',
+    2: 'Cartão de crédito recusado'
+}
 
 user = User()
+
 
 def get_initial_menu_option():
     ''' Menu inicial do sistema. '''
@@ -75,6 +104,7 @@ def show_game(game: Game):
     print(f'Preço de aluguel: R$ {game.price_rent}')
     print(f'Data de lançamento: {game.release_date}')
     print(f'Desenvolvedor: {game.developer}')
+    return input(BUY_MENU)
 
 ''' ------------------------------------------------------------------------ '''
 
@@ -86,7 +116,6 @@ if __name__ == '__main__':
     sm.initialize_library()
 
     ''' Menu inicial ------------------------------------------------------- '''
-
     # leitura da opção
     option = get_initial_menu_option()
     while option not in INITIAL_MENU_OPTIONS:
@@ -141,7 +170,23 @@ if __name__ == '__main__':
         while game == None:
             print('Jogo não encontrado!')
             game = get_game_search()
-        show_game(game)
+        option = show_game(game)
+
+        if option == '1':
+            cod = sm.buy_game(game.name, user.username)
+            print(BUY_CODES[cod])
+
+        elif option == '2':
+            cod = sm.buy_gift(game.name, user.username)
+            print(GIFT_CODES[cod])
+
+        elif option == '3':
+            cod = sm.rent_game(game.name, user.username)
+            print(RENT_CODES[cod])
+            
+        elif option == '0':
+            db.close()
+            sys.exit(0)
 
     elif option == '2':
         show_user_library()
